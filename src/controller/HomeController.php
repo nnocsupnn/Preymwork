@@ -6,6 +6,7 @@ use App\Kernel\Controller;
 
 use Illuminate\Database\Capsule\Manager as DB;
 use App\Kernel\DebuggingBar;
+use App\Kernel\Libraries\View;
 
 /**
  * @return view
@@ -18,6 +19,7 @@ class HomeController extends Controller {
     private $debug;
 
     public function __construct() {
+
         $this->debug = new DebuggingBar();
     }
 
@@ -45,6 +47,10 @@ class HomeController extends Controller {
             ], 'js')
         ];
 
-        render('index', $parameter_data);
+        $view = new View();
+        $view->header(['Content-type' => 'application/json'])
+            ->render('index', $parameter_data)
+            ->show();
+        exit;
     }
 }
