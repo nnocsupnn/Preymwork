@@ -14,7 +14,10 @@
             "App\\Controllers\\": "src/controller",
             "App\\Helpers\\": "src/helpers"
         },
-        "files": ["src/kernel/functions.php"]
+        "files": [
+            "src/kernel/Components/functions.php",
+            "src/kernel/routes.php"
+        ]
     },
     "require": {
         "illuminate/database": "^6.1",

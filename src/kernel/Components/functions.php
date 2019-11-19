@@ -9,7 +9,7 @@ CONST DS = DIRECTORY_SEPARATOR;
 $GLOBALS['debugbar'] = new StandardDebugBar;
 
 function initEnvironmentConfig () {
-    (new Dotenv)->load(dirname(dirname(__DIR__)) . DS . '.env');
+    (new Dotenv)->load(dirname(dirname(dirname(__DIR__))) . DS . '/.env');
     if (getenv('DEBUG') == 'true') {
         ini_set('display_errors', '1');
         error_reporting(E_ALL);
@@ -75,4 +75,18 @@ function debugbar($msg = null, $type = 'messages') {
 function validateMethod ($request, $required) {
     if (!in_array($required, [$request['REQUEST_METHOD']])) return false;
     return true;
+}
+
+
+function routes(App\Kernel\Libraries\Router $route, $path, $expression, $method = 'get') {
+    $route->{$method}($path, $expression);
+}
+
+function get_string_between($string, $start, $end){
+    $string = ' ' . $string;
+    $ini = strpos($string, $start);
+    if ($ini == 0) return false;
+    $ini += strlen($start);
+    $len = strpos($string, $end, $ini) - $ini;
+    return substr($string, $ini, $len);
 }

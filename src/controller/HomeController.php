@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Kernel\Controller;
+use App\Kernel\Components\Controller;
 use App\Kernel\Libraries\DebugingBar;
 use App\Kernel\Libraries\View;
 use Illuminate\Database\Capsule\Manager as DB;
@@ -11,7 +11,7 @@ use Illuminate\Database\Capsule\Manager as DB;
  * @return view
  */
 class HomeController extends Controller {
-    public function index () {
+    public function index() {
         $result = null;
         $result = $this->debug->measure(function () {
             return DB::connection(getenv('CONNECTION_NAME'))->table('info_user')->limit(1)->get();

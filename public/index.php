@@ -11,5 +11,5 @@ define('PATH', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'src' . DIRECT
 
 require_once "../vendor/autoload.php";
 
-$app = new \App\Kernel\Core();
+$app = new \App\Kernel\Components\Core();
 $app::run();

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Kernel;
+namespace App\Kernel\Components;
 
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Events\Dispatcher;
