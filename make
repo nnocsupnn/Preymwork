@@ -12,11 +12,11 @@ $types = ['model', 'controller'];
 if (!in_array($type, $types)) {
     echo 'valid param: ' . implode(', ', $types) . PHP_EOL;
     echo 'eg: php make model ModelName:table' . PHP_EOL;
-    echo 'eg: php make controller ControllerName' . PHP_EOL;
+    echo 'eg: php make controller ControllerName:method' . PHP_EOL;
     exit;
 }
 
-if (!@$newVars[2] && $type == 'model') die('Please provide option modelname and table eg. ModelName:table');
+// if (!@$newVars[2] && $type == 'model') die('Please provide option modelname and table eg. ModelName:table');
 $name_table = explode(':', $newVars[2]);
 
 $contents = [
@@ -25,10 +25,15 @@ $contents = [
         'content' => [
             '<?php' . PHP_EOL,
             'namespace App\Models;',
+            '',
             '/* Model */',
+            '',
             'use Illuminate\Database\Eloquent\Model;' . PHP_EOL,
+            '',
             'class ' . $name_table[0] . ' extends Model {',
+            '',
             '   protected $table = "' . @$name_table[1] . '";',
+            '',
             '   protected $timestamps = false;',
             '}'
         ]
@@ -37,11 +42,17 @@ $contents = [
         'path' => 'src/controller/',
         'content' => [
             '<?php' . PHP_EOL,
+            '',
             'namespace App\Controllers;',
+            '',
             '/* Controller */',
+            '',
             'class ' . @$name_table[0] . ' extends Controller {',
-            '   public function __construct() {',
+            '',
+            '   public function ' . @$name_table[1] . '() {',
+            '',
             '       // code ..',
+            '',
             '   }',
             '}'
         ]
