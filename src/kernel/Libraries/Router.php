@@ -11,8 +11,10 @@ class Router {
 	public function boot(Request $request) {
 	    global $routes;
 
+	    $debug = new DebugingBar();
 	    if (empty($routes)) return (new View)->render('errors.404');
 
+        $debug->console('Request time: ' . $request->duration, 'info');
 	    // Loop all loaded routes
 	    foreach ($routes as $name => $route) {
 
