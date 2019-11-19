@@ -70,3 +70,9 @@ function debugbar($msg = null, $type = 'messages') {
         return [];
     }
 }
+
+
+function validateMethod ($request, $required) {
+    if (!in_array($required, [$request['REQUEST_METHOD']])) return false;
+    return true;
+}

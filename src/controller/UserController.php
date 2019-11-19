@@ -12,7 +12,7 @@ class UserController
         $parameter_data = [
             'message' => 'Preymworks',
             'title' => 'Preymwork',
-            'body' => 'Preymwork',
+            'body' => 'USERS PAGE',
             // You can set your custom js for every method/controller
             'css' => staticFiles([
                 'style.css',

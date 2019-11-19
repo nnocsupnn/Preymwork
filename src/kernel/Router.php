@@ -14,7 +14,8 @@ class Router {
 	private $path;
 	private $end_points = [];
 
-	public function get($path, $controller) {	
+	public function get($path, $controller) {
+	    if (!validateMethod($_SERVER, strtoupper(__FUNCTION__))) return (new View())->render('errors.404');
 		$patch = '';
 		$this->end_points[] = $path;
 		$this->path  = @(trim($_SERVER['PATH_INFO'], '/')) ? trim($_SERVER['PATH_INFO'], '/') : null;
@@ -39,10 +40,7 @@ class Router {
 			$_endpoints[] = $key;
 		}
 
-        if (empty($this->uriLs[0])) {
-            $this->uriLs[0] = '/';
-        }
-
+        if (empty($this->uriLs[0])) $this->uriLs[0] = '/';
 		if (!in_array($uri, $_endpoints)) {
 		    $view = new View();
 			$view->render('errors.404', []);
