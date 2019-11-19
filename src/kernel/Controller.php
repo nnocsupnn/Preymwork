@@ -2,6 +2,13 @@
 
 namespace App\Kernel;
 
+use App\Kernel\Libraries\DebugingBar;
+
 class Controller {
-    // code..
+
+    public $debug;
+    public function __construct()
+    {
+        $this->debug = new DebugingBar();
+    }
 }

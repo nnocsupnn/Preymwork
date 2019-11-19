@@ -7,6 +7,7 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\Container\Container;
 use Framework\Kernel\Router;
 use \Exception;
+use App\Kernel\Libraries\DebugingBar;
 
 class Database {
     public function __construct() {
@@ -21,7 +22,7 @@ class Database {
                 'charset'   => getenv('DB_CHARSET'),
                 'collation' => getenv('DB_COLLATION'),
                 'prefix'    => getenv('DB_PREFIX')
-            ]);
+            ], getenv('CONNECTION_NAME'));
 
             $db->setEventDispatcher(new Dispatcher(new Container));
             $db->setAsGlobal();
@@ -29,5 +30,11 @@ class Database {
         } catch (Exception $e) {
             print($e->getMessage());
         }
+
+        /*
+         * Implement database debugging tool under debug bar
+         */
+        $debug = new DebugingBar();
+        $debug->enableDatabase(Manager::connection(getenv('CONNECTION_NAME'))->getPdo(), getenv('CONNECTION_NAME'));
     }
 }

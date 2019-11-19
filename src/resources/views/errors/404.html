@@ -10,8 +10,15 @@
         color: red;
     }
 </style>
+{{ css|raw }}
 {% endblock %}
 
 {% block body %}
-<h1>404 ..</h1>
+<div class="container-fluid">
+    <h1>Page Not Found</h1>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ js|raw }}
 {% endblock %}

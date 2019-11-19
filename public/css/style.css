@@ -13,9 +13,26 @@ h3 {
     font-weight: bold;
     text-transform: uppercase;
     text-align: center;
+    cursor: pointer;
+}
+
+h3:hover {
+    animation: slide 1s ease;
+    animation-iteration-count: infinite;
+}
+
+@keyframes slide {
+    from {
+        transform: scale(-1, 1);
+    }
+
+    to {
+        transform: scale(1, 1);
+    }
 }
 
 p {
     text-align: center;
     font-size: 18px;
+    text-transform: uppercase;
 }
