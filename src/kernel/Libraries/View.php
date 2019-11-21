@@ -36,7 +36,7 @@ class View implements ViewInterface
         $loader = new FilesystemLoader(PATH);
         $is_caching = [];
         if (getenv('TWIG_CACHING') == 'true') $is_caching = [
-            'cache' => '../cache',
+            'cache' => ROOT_PATH . '/cache',
         ];
 
         $this->twig = new Environment($loader, $is_caching);

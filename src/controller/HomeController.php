@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+defined('ROOT_PATH') or die('Please contact service.');
+
 use App\Kernel\Components\Controller;
 use App\Kernel\Libraries\DebugingBar;
 use App\Kernel\Libraries\View;
@@ -11,11 +13,8 @@ use Illuminate\Database\Capsule\Manager as DB;
  * @return view
  */
 class HomeController extends Controller {
-    public function index() {
-        $result = null;
-        $result = $this->debug->measure(function () {
-            return DB::connection(getenv('CONNECTION_NAME'))->table('info_user')->limit(1)->get();
-        }, 'query1');
+    public function index($id) {
+        $result = (object) ['hello' => __FILE__];
         $this->debug->console($result, 'error');
 
         $parameter_data = [

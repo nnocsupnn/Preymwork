@@ -1,20 +1,17 @@
 <?php
 
-use App\Kernel\Libraries\Router;
-
-
 /**
  * Routes path
  */
-$GLOBALS['routes'] = [
-    'index' => [
-        'GET::/',
-        'HomeController@index'
-    ],
-    'user' => [
-        'GET::/user',
-        'UserController@user'
-    ]
-];
+use App\Controllers\HomeController;
+
+function routes($router) {
+    /**
+     * Routes declare here.
+     */
+    $router->get('/', function($request) {
+        (new HomeController)->index($request);
+    });
+}
 
 

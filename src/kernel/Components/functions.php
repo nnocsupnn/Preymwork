@@ -51,8 +51,12 @@ function staticFiles ($files = [], $type = 'js') {
 
 function debugbar($msg = null, $type = 'messages') {
     $renderer = $GLOBALS['debugbar']->getJavascriptRenderer();
+    $assets = [
+        'head' => '',
+        'footer' => ''
+    ];
     if (getenv('DEBUG') == 'true') {
-        return [
+        return $assets = [
             'head' => "
                 <link rel=\"stylesheet\" type=\"text/css\" href=\"/css/debugbar/font-awesome.min.css\">
                 <link rel=\"stylesheet\" type=\"text/css\" href=\"/css/debugbar/github.css\">
@@ -67,7 +71,7 @@ function debugbar($msg = null, $type = 'messages') {
             'footer' => $renderer->render()
         ];
     } else {
-        return [];
+        return $assets;
     }
 }
 
@@ -77,10 +81,6 @@ function validateMethod ($request, $required) {
     return true;
 }
 
-
-function routes(App\Kernel\Libraries\Router $route, $path, $expression, $method = 'get') {
-    $route->{$method}($path, $expression);
-}
 
 function get_string_between($string, $start, $end){
     $string = ' ' . $string;

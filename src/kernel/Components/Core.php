@@ -15,6 +15,7 @@ class Core {
     }
 
     public static function run() {
-        (new Router)->boot(new Request());
+        $router = new Router(new Request());
+        routes($router);
     }
 }

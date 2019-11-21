@@ -3,28 +3,47 @@
 
 namespace App\Kernel\Libraries;
 
+use App\Kernel\Interfaces\IRequest;
 
-class Request
+class Request implements IRequest
 {
-    public $request;
-    public $uri;
-    public $method;
-    public $duration;
-    public $host;
-
-    public function __construct()
-    {
-        $this->request = (object) $_SERVER;
-        $this->uri = $this->request->REQUEST_URI;
-        $this->method = $this->request->REQUEST_METHOD;
-        $this->duration = microtime(true) - $this->request->REQUEST_TIME_FLOAT;
-        $this->host = $this->request->HTTP_HOST;
-
-        date_default_timezone_set($this->request->TIMEZONE);
-        return $this;
+    function __construct() {       
+        $this->bootstrapSelf();
     }
 
-    public function queries () {
-        return $this->request->QUERY_STRING;
+    private function bootstrapSelf() {
+        foreach($_SERVER as $key => $value)
+        {
+            $this->{$this->toCamelCase($key)} = $value;
+        }
+    }
+
+    private function toCamelCase($string) {
+        $result = strtolower($string);
+            
+        preg_match_all('/_[a-z]/', $result, $matches);
+        foreach($matches[0] as $match)
+        {
+            $c = str_replace('_', '', strtoupper($match));
+            $result = str_replace($match, $c, $result);
+        }
+
+        return $result;
+    }
+
+    public function getBody() {
+        if($this->requestMethod === "GET") {
+            return;
+        }
+
+        if ($this->requestMethod == "POST") {
+            $body = array();
+            foreach($_POST as $key => $value)
+            {
+                $body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+            }
+            
+            return $body;
+        }
     }
 }

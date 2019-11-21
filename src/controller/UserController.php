@@ -8,7 +8,9 @@ use Illuminate\Database\Capsule\Manager as DB;
 
 class UserController
 {
-    public function user() {
+    public function user($arguments) {
+        foreach ($arguments as $var => $val) $$var = $val;
+        
         $parameter_data = [
             'message' => 'Preymworks',
             'title' => 'Preymwork',

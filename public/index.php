@@ -8,6 +8,7 @@
 
 ini_set('display_errors', '1');
 define('PATH', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'views');
+define('ROOT_PATH', dirname(__DIR__));
 
 require_once "../vendor/autoload.php";
 
