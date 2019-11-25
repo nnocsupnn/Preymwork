@@ -5,7 +5,12 @@ this project is for custom static websites.
 
 
 ## Make
-`php make controller ControllerName:methodName`
--
-`php make model ModelName:table`
--
+``
+php make controller ControllerName:methodName
+``
+
+
+``
+php make model ModelName:table
+``
+
