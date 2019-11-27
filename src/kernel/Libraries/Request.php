@@ -11,14 +11,14 @@ class Request implements IRequest
         $this->bootstrapSelf();
     }
 
-    private function bootstrapSelf() {
+    private function bootstrapSelf():void {
         foreach($_SERVER as $key => $value)
         {
             $this->{$this->toCamelCase($key)} = $value;
         }
     }
 
-    private function toCamelCase($string) {
+    private function toCamelCase($string):?string {
         $result = strtolower($string);
             
         preg_match_all('/_[a-z]/', $result, $matches);
@@ -33,7 +33,7 @@ class Request implements IRequest
 
     public function getBody() {
         if($this->requestMethod === "GET") {
-            return;
+            return false;
         }
 
         if ($this->requestMethod == "POST") {

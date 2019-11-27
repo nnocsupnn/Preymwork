@@ -52,7 +52,7 @@ class View implements ViewInterface
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function render($file, $data = [])
+    public function render($file, $data = []):?self
     {
         $data['debugbar'] =  $this->debug->init();
         if (!file_exists(PATH . DS . cleanPath($file))) {
@@ -69,7 +69,7 @@ class View implements ViewInterface
      * @param array $headers
      * @return $this
      */
-    public function header($headers = [])
+    public function header($headers = []):?self
     {
         if (empty($headers)) return $this;
         foreach ($headers as $header => $value) {
@@ -88,7 +88,7 @@ class View implements ViewInterface
      * @param array $data
      * @return string
      */
-    public function viewChecker($file, $data = []) {
+    public function viewChecker($file, $data = []):string {
         if (!file_exists(PATH . DS . $file . '.html')) {
             $file = cleanPath($file);
             try {
@@ -110,7 +110,7 @@ class View implements ViewInterface
     /**
      * Print
      */
-    public function show($out = null)
+    public function show($out = null):void
     {
         if ($out == null) {
             print($this->out);

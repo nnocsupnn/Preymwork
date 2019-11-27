@@ -33,7 +33,6 @@ class HomeController extends Controller {
             ], 'js')
         ];
 
-        $view = new View();
-        $view->render('index', $parameter_data)->show();
+        (new View())->render('index', $parameter_data)->show();
     }
 }

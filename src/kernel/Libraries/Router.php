@@ -55,15 +55,21 @@ class Router {
                 }
             }
         } else {
-            dd();
+            try {
+                throw new Exception('Invalid callable');
+            } catch (Exception $e) {
+                $this->debug->console(__FILE__ . ':' . __LINE__ . ' ' . $e->getMessage(), 'error');
+                exit;
+            }
         }
     }
 
     /**
      * Removes trailing forward slashes from the right of the route.
      * @param route (string)
+     * @return string
      */
-    private function formatRoute($route)
+    private function formatRoute($route):string
     {
         $result = rtrim($route, '/');
         if ($result === '') return '/';
@@ -71,13 +77,13 @@ class Router {
     }
 
 
-    private function invalidMethodHandler()
+    private function invalidMethodHandler():void
     {
         header("{$this->request->serverProtocol} 405 Method Not Allowed");
     }
 
 
-    private function defaultRequestHandler()
+    private function defaultRequestHandler():?Classname
     {
         return (new View())->render('errors.404', ['error' => 'Method not exists'])->show();
     }
@@ -86,7 +92,7 @@ class Router {
     /**
      * Resolves a route
      */
-    function resolve()
+    function resolve():void
     {
         $methodDictionary = @$this->{strtolower($this->request->requestMethod)};
         $formatedRoute = $this->formatRoute($this->request->requestUri);
@@ -103,6 +109,7 @@ class Router {
 
     function __destruct()
     {
+        $this->debug->console('TIMEZONE: ' . date_default_timezone_get(), 'info');
         $this->resolve();
     }
 }
