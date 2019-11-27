@@ -16,7 +16,7 @@
         },
         "files": [
             "src/kernel/Components/functions.php",
-            "src/kernel/routes.php"
+            "src/routes.php"
         ]
     },
     "require": {
