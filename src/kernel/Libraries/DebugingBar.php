@@ -6,6 +6,7 @@ namespace App\Kernel\Libraries;
 use DebugBar\DataCollector\PDO\PDOCollector;
 use DebugBar\DataCollector\PDO\TraceablePDO;
 use DebugBar\DataCollector\TimeDataCollector;
+use \Closure;
 use PDO;
 
 
@@ -41,11 +42,15 @@ class DebugingBar {
 
 
     /**
-     * @param $closure
+     * @param \Closure $callback
      * @param string $name
      * @return mixed
      */
     public function measure($callback, $name = 'operation') {
+        if (!is_callable($callback)) {
+            $this->console('Invalid first argument given. Must be a callback.', 'error');
+            return false;
+        }
         $this->debug['time']->startMeasure($name);
         $result = $callback();
         $this->debug['time']->stopMeasure($name);

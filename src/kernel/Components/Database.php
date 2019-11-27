@@ -10,10 +10,11 @@ use \Exception;
 use App\Kernel\Libraries\DebugingBar;
 
 class Database {
+    public $db;
     public function __construct() {
         try {
-            $db = new Manager;
-            $db->addConnection([
+            $this->db = new Manager;
+            $this->db->addConnection([
                 'driver'    => getenv('DB_DRIVER'),
                 'host'      => getenv('DB_HOST'),
                 'database'  => getenv('DB_NAME'),
@@ -24,9 +25,9 @@ class Database {
                 'prefix'    => getenv('DB_PREFIX')
             ], getenv('CONNECTION_NAME'));
 
-            $db->setEventDispatcher(new Dispatcher(new Container));
-            $db->setAsGlobal();
-            $db->bootEloquent();
+            $this->db->setEventDispatcher(new Dispatcher(new Container));
+            $this->db->setAsGlobal();
+            $this->db->bootEloquent();
         } catch (Exception $e) {
             print($e->getMessage());
             exit;
