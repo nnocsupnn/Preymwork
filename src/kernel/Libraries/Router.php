@@ -2,14 +2,19 @@
 
 namespace App\Kernel\Libraries;
 
-use \Exception;
 use App\Kernel\Libraries\View;
+use \Exception;
 use App\Kernel\Libraries\Request;
 use App\Kernel\Interfaces\IRequest;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
+use App\Kernel\Libraries\DebugingBar;
 
 
 class Router {
 	private $request;
+	private $debug;
     private $supportedHttpMethods = array(
         "GET",
         "POST"
@@ -18,17 +23,40 @@ class Router {
     function __construct(IRequest $request)
     {
         $this->request = $request;
+        $this->debug = new DebugingBar();
     }
 
 
     function __call($name, $args)
     {
         list($route, $method) = $args;
-        if(!in_array(strtoupper($name), $this->supportedHttpMethods)) {
-            $this->invalidMethodHandler();
-        }
 
-        $this->{strtolower($name)}[$this->formatRoute($route)] = $method;
+        if (is_callable($method)) {
+            if(!in_array(strtoupper($name), $this->supportedHttpMethods)) {
+                $this->invalidMethodHandler();
+            }
+
+            $this->{strtolower($name)}[$this->formatRoute($route)] = $method;
+        } else if (is_string($method)) {
+            list($controller, $method) = explode("@", $method);
+            $controller = "\\App\\Controllers\\" . $controller;
+
+            if (method_exists($controller, $method)) {
+                $this->{strtolower($name)}[$this->formatRoute($route)] = function () use ($controller, $method) { (new $controller)->{$method}($this->request); };
+            } else {
+                try {
+                    return;
+                } catch (LoaderError $e) {
+                    $this->debug->console($e->getMessage(), 'error');
+                } catch (RuntimeError $e) {
+                    $this->debug->console($e->getMessage(), 'error');
+                } catch (SyntaxError $e) {
+                    $this->debug->console($e->getMessage(), 'error');
+                }
+            }
+        } else {
+            dd();
+        }
     }
 
     /**
@@ -38,10 +66,7 @@ class Router {
     private function formatRoute($route)
     {
         $result = rtrim($route, '/');
-        if ($result === '')
-        {
-        return '/';
-        }
+        if ($result === '') return '/';
         return $result;
     }
 
@@ -54,7 +79,7 @@ class Router {
 
     private function defaultRequestHandler()
     {
-        header("{$this->request->serverProtocol} 404 Not Found");
+        return (new View())->render('errors.404', ['error' => 'Method not exists'])->show();
     }
 
 
@@ -63,15 +88,16 @@ class Router {
      */
     function resolve()
     {
-        $methodDictionary = $this->{strtolower($this->request->requestMethod)};
+        $methodDictionary = @$this->{strtolower($this->request->requestMethod)};
         $formatedRoute = $this->formatRoute($this->request->requestUri);
-        $method = $methodDictionary[$formatedRoute];
-        if(is_null($method)) {
+        $method = @$methodDictionary[$formatedRoute];
+
+        if (is_null($method)) {
             $this->defaultRequestHandler();
             return;
         }
 
-        echo call_user_func_array($method, array($this->request));
+        call_user_func_array($method, array($this->request));
     }
 
 
