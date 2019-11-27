@@ -29,12 +29,16 @@ class Database {
             $db->bootEloquent();
         } catch (Exception $e) {
             print($e->getMessage());
+            exit;
         }
 
         /*
          * Implement database debugging tool under debug bar
          */
         $debug = new DebugingBar();
-        $debug->enableDatabase(Manager::connection(getenv('CONNECTION_NAME'))->getPdo(), getenv('CONNECTION_NAME'));
+        $debug->enableDatabase(
+            Manager::connection(getenv('CONNECTION_NAME'))->getPdo(),
+            getenv('CONNECTION_NAME')
+        );
     }
 }

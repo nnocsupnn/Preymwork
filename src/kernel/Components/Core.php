@@ -16,6 +16,7 @@ class Core {
         date_default_timezone_set(getenv('TIMEZONE'));
     }
 
+
     public static function run():void {
         $router = new Router(new Request());
         routes($router);
