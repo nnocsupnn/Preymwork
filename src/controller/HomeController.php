@@ -17,10 +17,6 @@ class HomeController extends Controller {
         $result = (object) ['hello' => __FILE__];
         $this->debug->console($result, 'error');
 
-        $this->debug->measure(function () {
-            usleep(30000);
-        }, 'test');
-
         $parameter_data = [
             'message' => 'Preymwork',
             'title' => 'Preymwork',

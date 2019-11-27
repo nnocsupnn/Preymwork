@@ -34,9 +34,10 @@ class View implements ViewInterface
     {
         $this->debug = new DebugingBar();
         $loader = new FilesystemLoader(PATH);
-        $is_caching = [];
-        if (getenv('TWIG_CACHING') == 'true') $is_caching = [
-            'cache' => ROOT_PATH . '/cache',
+
+        $is_caching = [
+            'cache' => getenv('TWIG_CACHING') == 'true' ? ROOT_PATH . '/cache' : false,
+            'debug' => getenv('TWIG_DEBUGING') ? true : false
         ];
 
         $this->twig = new Environment($loader, $is_caching);
