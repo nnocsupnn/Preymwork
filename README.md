@@ -1,6 +1,6 @@
 # Preymwork 1.1
 
-_**Preymwork**_ is a hubby project of mine. built on **illuminate/laravel, maximef/debugbar and Twig**.
+_**Preymwork**_ is a hobby project of mine. built on **illuminate/laravel, maximef/debugbar and Twig**.
 this project is for custom static websites.
 
 ![Sample](https://i.ibb.co/TcJz8L6/preymwork-sample.png)
